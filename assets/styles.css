@@ -387,3 +387,13 @@ textarea{min-height:8rem;resize:vertical}
     outline:3px solid var(--lake-bright);
   }
 }
+
+/* Desktop: keep header dropdowns open while moving from the trigger into the menu.
+   What We Do is a full-width mega positioned against .header-inner, so the trigger
+   li is stretch-height and the mega overlaps the header's bottom padding. */
+@media (min-width:980px){
+  .nav{align-self:stretch;align-items:stretch}
+  .nav-list{align-self:stretch;align-items:stretch}
+  .nav-list > li{display:flex;align-items:center}
+  .mega{top:calc(100% - .55rem - 2px)}
+}
