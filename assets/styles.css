@@ -4,7 +4,7 @@
   --forest-2:#053626;
   --pine:#0B3A2E;
   --lake:#296C7E;
-  --lake-mid:#387D92;
+  --lake-mid:#296C7E;
   --lake-bright:#4DA7C3;
   --aqua:#A2CCD5;
   --mist:#C2D2E1;
@@ -24,7 +24,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:clip}
 body{
   font-family:var(--sans);
   color:var(--ink);
@@ -73,7 +73,7 @@ ul,ol{margin:0 0 1em;padding-left:1.2em}
   border-bottom:1px solid var(--line);
   position:sticky;top:0;z-index:40;
 }
-.header-inner{display:flex;align-items:center;gap:1rem;padding:.55rem 0}
+.header-inner{display:flex;align-items:center;gap:.55rem;padding:.55rem 0;position:relative}
 .logo-link{order:1}
 .header-cta{order:3}
 .nav-toggle{order:4}
@@ -81,7 +81,7 @@ ul,ol{margin:0 0 1em;padding-left:1.2em}
 .logo-link{flex:0 0 auto;display:flex;align-items:center}
 .logo-link img{width:72px;height:72px;object-fit:contain}
 .nav-toggle{
-  margin-left:auto;
+  margin-left:0;
   background:transparent;border:1px solid var(--forest);color:var(--forest);
   font:inherit;font-weight:600;font-size:.9rem;
   padding:.45rem .8rem;border-radius:999px;cursor:pointer;
@@ -100,13 +100,17 @@ ul,ol{margin:0 0 1em;padding-left:1.2em}
 .nav-parent > button::after{content:"+" ;font-weight:600;margin-left:.5rem}
 .nav-parent.is-open > button::after{content:"–"}
 .sub{display:none;list-style:none;margin:0;padding:0 0 .6rem 0}
-.nav-parent.is-open > .sub, .mega.is-open{display:block}
+.mega{display:none;padding:.15rem 0 .85rem}
+.nav-parent.is-open > .sub, .nav-parent.is-open > .mega, .mega.is-open{display:block}
+.mega .sub{display:block;padding:0}
 .sub a{display:block;padding:.35rem 0 .35rem .2rem;color:var(--ink);text-decoration:none;font-size:.92rem}
 .sub a:hover{color:var(--lake-mid)}
-.mega-grid{display:grid;gap:1rem}
+.mega-grid{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:479px){.mega-grid{grid-template-columns:1fr}}
+.mega > p{margin:.85rem 0 0}
+.mega > p a{font-weight:600}
 .mega-col h3{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--lake-mid);margin:0 0 .35rem}
-.header-cta{display:inline-flex;margin-left:auto;flex:0 0 auto}
-.header-cta .btn{padding:.5rem .9rem;font-size:.85rem}
+.header-cta{display:inline-flex;margin-left:auto;flex:0 0 auto;align-items:center;gap:.4rem}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
   font-family:var(--sans);font-weight:600;font-size:.95rem;text-decoration:none;
@@ -133,18 +137,28 @@ ul,ol{margin:0 0 1em;padding-left:1.2em}
   }
   .nav-parent > button::after{content:"";border:solid var(--forest);border-width:0 1.5px 1.5px 0;padding:2.5px;transform:rotate(45deg);margin-left:.35rem;margin-bottom:.2rem}
   .nav-parent.is-open > button::after,.nav-parent:hover > button::after{transform:rotate(-135deg);margin-bottom:-.15rem}
-  .sub, .mega{
+  .sub{
     display:none;position:absolute;top:calc(100% - 2px);left:0;
     background:#fff;min-width:230px;padding:.7rem .9rem;border-radius:12px;
+    box-shadow:var(--shadow);border:1px solid var(--line);z-index:30;
+  }
+  .nav-list > li:has(> .mega){position:static}
+  .mega{
+    display:none;position:absolute;top:calc(100% - 2px);left:0;right:0;width:auto;
+    background:#fff;padding:1.1rem 1.2rem 1.2rem;border-radius:12px;
     box-shadow:var(--shadow);border:1px solid var(--line);z-index:30;
   }
   .nav-parent:hover > .sub, .nav-parent:focus-within > .sub,
   .nav-parent:hover > .mega, .nav-parent:focus-within > .mega,
   .nav-parent.is-open > .sub, .nav-parent.is-open > .mega{display:block}
-  .mega{width:640px;padding:1rem 1.1rem}
-  .mega-grid{grid-template-columns:repeat(2,1fr);gap:.8rem 1.2rem}
+  .mega-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem 1.25rem}
+  .mega .sub{
+    display:block;position:static;min-width:0;width:auto;
+    padding:0;border:0;box-shadow:none;background:transparent;border-radius:0;
+  }
   .header-cta{margin-left:.4rem}
-  .header-cta .btn{padding:.75rem 1.25rem;font-size:.95rem}
+  .header-cta .btn{padding:.75rem 1.25rem;font-size:.95rem;white-space:nowrap}
+  .nav-mobile-cta{display:none}
 }
 
 /* Hero */
@@ -285,4 +299,91 @@ textarea{min-height:8rem;resize:vertical}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition:none!important}
+}
+
+
+/* ==========================================================================
+   Review fixes (2026-11-12). Contrast, header Text Us, CTA and footer
+   buttons, hours readability, What We Do dropdown, symptoms intro width,
+   heading rhythm, and footer column alignment. No copy or photo changes.
+   ========================================================================== */
+
+/* Text Us: distinct button on the top bar, sticky header, and mobile menu */
+.topbar-links a[href^="sms"]{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--cream);color:var(--cream);background:transparent;
+  border-radius:999px;padding:.15rem .7rem;font-weight:600;line-height:1.2;
+}
+.topbar-links a[href^="sms"]:hover{background:var(--cream);color:var(--pine);text-decoration:none}
+
+.btn--text{
+  background:var(--white);color:var(--forest);border-color:var(--forest);
+}
+.btn--text:hover{background:var(--forest);color:var(--cream);border-color:var(--forest)}
+
+@media (max-width:979px){.header-cta .btn{padding:.45rem .75rem;font-size:.8rem}}
+@media (max-width:979px){
+  .nav-mobile-cta{display:flex;gap:.6rem;padding:.9rem 0 .2rem;border-top:1px solid var(--line);margin-top:.25rem}
+  .nav-mobile-cta .btn{flex:1}
+}
+
+/* Call / ghost buttons on the green CTA band and in the footer */
+.band--forest .btn--ghost,
+.cta-band .btn--ghost,
+.site-footer .btn--ghost{
+  background:transparent;color:var(--cream);border-color:var(--cream);
+}
+.band--forest .btn--ghost:hover,
+.cta-band .btn--ghost:hover,
+.site-footer .btn--ghost:hover{
+  background:var(--cream);color:var(--forest);border-color:var(--cream);
+}
+.site-footer a.btn--cream,
+.site-footer a.btn--cream:hover{color:var(--forest);text-decoration:none}
+.site-footer a.btn--ghost{text-decoration:none}
+.site-footer a.btn--ghost:hover{text-decoration:none}
+
+.btn:focus-visible,
+.nav-toggle:focus-visible,
+.nav-parent > button:focus-visible,
+.nav-list a:focus-visible,
+.topbar a:focus-visible{
+  outline:3px solid var(--lake-bright);
+  outline-offset:2px;
+}
+
+/* Footer: readable hours, even columns, centered hours block */
+@media (min-width:800px){
+  .foot-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;align-items:start}
+}
+.foot-grid > div{min-width:0}
+.foot-grid > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
+.foot-grid > div:nth-child(2) h3{text-align:center}
+.site-footer .hours{width:100%;max-width:26rem;font-size:.9rem}
+.site-footer .hours li{border-bottom-color:rgba(247,241,230,.22)}
+.site-footer .hours li span:first-child{color:var(--cream)}
+.site-footer .hours li span:last-child{color:var(--cream-2);text-align:right}
+.legal-nav a{opacity:1}
+.copy{opacity:1;color:var(--cream-2)}
+
+/* Symptoms intro runs the full width of the section container */
+.lead--full{max-width:none}
+
+/* Heading spacing: clear space above content headings, even list rhythm */
+.prose .h2, .prose h2{margin-top:2.75rem;margin-bottom:.75rem}
+.prose h3{margin-top:1.875rem;margin-bottom:.5rem}
+.prose h2:first-child, .prose .h2:first-child, .prose h2:first-child + h3, .page-hero h1{margin-top:0}
+.prose ul li + li, .prose ol li + li{margin-top:.4rem}
+.band .wrap > h2{margin-bottom:.75rem}
+
+/* CTA band subtext stays centered with the heading */
+.cta-band p{text-align:center}
+
+/* Header logo stays fully visible in every sticky/scroll state */
+.logo-link img{opacity:1;filter:none}
+
+@media (prefers-reduced-motion:reduce){
+  .btn:focus-visible,.nav-toggle:focus-visible,.nav-parent > button:focus-visible,.nav-list a:focus-visible,.topbar a:focus-visible{
+    outline:3px solid var(--lake-bright);
+  }
 }
