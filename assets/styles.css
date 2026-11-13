@@ -412,11 +412,11 @@ textarea{min-height:8rem;resize:vertical}
 .quotes-band{text-align:center}
 .quote-rotator{max-width:46rem;margin:1rem auto 0}
 .qr-slide{margin:0;padding:0}
-.qr-slide blockquote{font-family:var(--serif);font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.4;color:var(--forest);margin:0 0 .8rem}
+.qr-slide blockquote{font-family:var(--serif);font-size:clamp(1.05rem,2.2vw,1.4rem);overflow-wrap:break-word;line-height:1.4;color:var(--forest);margin:0 0 .8rem}
 .qr-slide figcaption{font-weight:600;color:var(--lake-mid);font-size:.95rem}
-.qr-ready .qr-slide{display:none}
-.qr-ready .qr-slide.is-active{display:block;animation:qr-fade .5s ease}
-.qr-ready .qr-slides{min-height:9rem;display:flex;align-items:center;justify-content:center}
+.qr-ready .qr-slide{grid-area:1/1;visibility:hidden}
+.qr-ready .qr-slide.is-active{visibility:visible;animation:qr-fade .5s ease}
+.qr-ready .qr-slides{display:grid;align-items:center}
 .quote-rotator:not(.qr-ready) .qr-slide + .qr-slide{margin-top:1.6rem}
 .qr-controls{display:flex;justify-content:center;gap:.6rem;margin-top:1.2rem}
 .qr-btn{font:inherit;font-weight:600;min-width:44px;min-height:44px;padding:.4rem .9rem;border-radius:999px;border:1px solid var(--forest);background:transparent;color:var(--forest);cursor:pointer}

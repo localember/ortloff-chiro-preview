@@ -72,7 +72,7 @@
       }
     });
   });
-  // Rotating quotes (placeholder content on the home page). Pauses on hover and focus,
+  // Rotating quotes on the home page. Pauses on hover and focus,
   // has a pause button, and does not auto-rotate when the visitor prefers reduced motion.
   document.querySelectorAll(".quote-rotator").forEach(function (root) {
     var slides = root.querySelectorAll(".qr-slide");
