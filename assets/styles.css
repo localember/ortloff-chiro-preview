@@ -1,4 +1,4 @@
-/* Ortloff Family Chiropractic — design preview. Palette sampled from OFC Logo-2.eps. */
+/* Ortloff Family Chiropractic: design preview. Palette sampled from OFC Logo-2.eps. */
 :root{
   --forest:#042F1F;
   --forest-2:#053626;
@@ -397,3 +397,31 @@ textarea{min-height:8rem;resize:vertical}
   .nav-list > li{display:flex;align-items:center}
   .mega{top:calc(100% - .55rem - 2px)}
 }
+
+/* Round 2: preview placeholders */
+.placeholder{background:#FFF6E0;border:2px dashed #9A5B00;border-radius:10px;padding:.65rem .85rem;color:#4A2C00;font-size:.95rem}
+.faq details .placeholder{margin:.7rem 0 0}
+.faq-sub{font-family:var(--sans);font-size:1rem;margin:.9rem 0 0;color:var(--forest)}
+
+/* Round 2: footer region line and social links */
+.site-footer .foot-region{margin:-.2rem 0 .7rem;color:var(--cream)}
+.site-footer .foot-social a{display:inline-flex;align-items:center;gap:.45rem;padding:.2rem 0}
+.site-footer .foot-social svg{flex:none}
+
+/* Round 2: rotating quotes */
+.quotes-band{text-align:center}
+.quote-rotator{max-width:46rem;margin:1rem auto 0}
+.qr-slide{margin:0;padding:0}
+.qr-slide blockquote{font-family:var(--serif);font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.4;color:var(--forest);margin:0 0 .8rem}
+.qr-slide figcaption{font-weight:600;color:var(--lake-mid);font-size:.95rem}
+.qr-ready .qr-slide{display:none}
+.qr-ready .qr-slide.is-active{display:block;animation:qr-fade .5s ease}
+.qr-ready .qr-slides{min-height:9rem;display:flex;align-items:center;justify-content:center}
+.quote-rotator:not(.qr-ready) .qr-slide + .qr-slide{margin-top:1.6rem}
+.qr-controls{display:flex;justify-content:center;gap:.6rem;margin-top:1.2rem}
+.qr-btn{font:inherit;font-weight:600;min-width:44px;min-height:44px;padding:.4rem .9rem;border-radius:999px;border:1px solid var(--forest);background:transparent;color:var(--forest);cursor:pointer}
+.qr-btn:hover{background:var(--forest);color:var(--cream)}
+.qr-btn:focus-visible{outline:3px solid var(--lake-bright);outline-offset:2px}
+@keyframes qr-fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.qr-ready .qr-slide.is-active{animation:none}}
+.qr-controls[hidden]{display:none}

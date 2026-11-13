@@ -72,4 +72,39 @@
       }
     });
   });
+  // Rotating quotes (placeholder content on the home page). Pauses on hover and focus,
+  // has a pause button, and does not auto-rotate when the visitor prefers reduced motion.
+  document.querySelectorAll(".quote-rotator").forEach(function (root) {
+    var slides = root.querySelectorAll(".qr-slide");
+    if (slides.length < 2) return;
+    var live = root.querySelector(".qr-slides");
+    var controls = root.querySelector(".qr-controls");
+    var toggle = root.querySelector(".qr-toggle");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var index = 0, timer = null, userPaused = reduce.matches, hovering = false, focused = false;
+    root.classList.add("qr-ready");
+    if (controls) controls.hidden = false;
+    function show(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function (s, n) { s.classList.toggle("is-active", n === index); });
+    }
+    function running() { return !userPaused && !hovering && !focused; }
+    function sync() {
+      clearInterval(timer); timer = null;
+      if (live) live.setAttribute("aria-live", running() ? "off" : "polite");
+      if (running()) timer = setInterval(function () { show(index + 1); }, 7000);
+      if (toggle) {
+        toggle.textContent = userPaused ? "Play" : "Pause";
+        toggle.setAttribute("aria-label", userPaused ? "Play quotes" : "Pause quotes");
+      }
+    }
+    root.querySelector(".qr-prev").addEventListener("click", function () { show(index - 1); });
+    root.querySelector(".qr-next").addEventListener("click", function () { show(index + 1); });
+    if (toggle) toggle.addEventListener("click", function () { userPaused = !userPaused; sync(); });
+    root.addEventListener("mouseenter", function () { hovering = true; sync(); });
+    root.addEventListener("mouseleave", function () { hovering = false; sync(); });
+    root.addEventListener("focusin", function () { focused = true; sync(); });
+    root.addEventListener("focusout", function (e) { if (!root.contains(e.relatedTarget)) { focused = false; sync(); } });
+    show(0); sync();
+  });
 })();
